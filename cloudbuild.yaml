@@ -1,8 +1,22 @@
 steps:
-  - name: "python:3.11"
-    entrypoint: "python"
-    args: ["hello.py"]
+- name: "gcr.io/cloud-builders/docker"
 
-options:
-  logging: CLOUD_LOGGING_ONLY
+  # naming convention: <location>-<docker.pkg.dev/project_id/repo_name/image_name>:<tag>
+  args: ["build", "-t", "europe-west4-docker.pkg.dev/gcp-cicd-demo-496617/pyapprepo-artifact/pyappimage:latest", "."]
 
+
+- name: "gcr.io/cloud-builders/docker"
+  args: ["push", "europe-west4-docker.pkg.dev/gcp-cicd-demo-496617/pyapprepo-artifact/pyappimage:latest"]
+
+
+- name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+  entrypoint: gcloud
+  args:
+  - "run"
+  - "deploy"
+  - "pyfastapiapp"
+  - "--image"
+  - "europe-west4-docker.pkg.dev/gcp-cicd-demo-496617/pyapprepo-artifact/pyappimage:latest"
+  - "--region"
+  - "europe-west4"
+  - "--allow-unauthenticated"

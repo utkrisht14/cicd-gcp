@@ -2,11 +2,11 @@ steps:
 - name: "gcr.io/cloud-builders/docker"
 
   # naming convention: <location>-<docker.pkg.dev/project_id/repo_name/image_name>:<tag> like latest or v1.0.0
-  args: ["build", "-t", "europe-west4-docker.pkg.dev/${PROJECT_ID}/pyapprepo-artifact/pyappimage:latest", "."]
+  args: ["build", "-t", "${_IMAGE_PATH}", "."]
 
 
 - name: "gcr.io/cloud-builders/docker"
-  args: ["push", "europe-west4-docker.pkg.dev/${PROJECT_ID}/pyapprepo-artifact/pyappimage:latest"]
+  args: ["push", "${_LOCATION}/${PROJECT_ID}/${_IMAGE}"]
 
 
 - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
@@ -16,10 +16,20 @@ steps:
   - "deploy"
   - "pyfastapiapp"
   - "--image"
-  - "europe-west4-docker.pkg.dev/${PROJECT_ID}/pyapprepo-artifact/pyappimage:latest"
+  - "${_LOCATION}/${PROJECT_ID}/${_IMAGE}"
   - "--region"
   - "europe-west4"
   - "--allow-unauthenticated"
 
 options:
   logging: CLOUD_LOGGING_ONLY
+
+
+substitutions:
+  _IMAGE: pyapprepo-artifact/pyappimage:latest
+  _LOCATION: europe-west4-docker.pkg.dev
+  _IMAGE_PATH: $_{LOCATION}/${PROJECT_ID}/${_IMAGE}
+
+
+options:
+  dynamicSubstitutions: true

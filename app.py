@@ -8,7 +8,6 @@ load_dotenv()
 
 app = FastAPI()
 
-
 @app.get("/")
 async def wish():
     name = os.environ.get("NAME")
@@ -18,3 +17,5 @@ async def wish():
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8080)
+
+

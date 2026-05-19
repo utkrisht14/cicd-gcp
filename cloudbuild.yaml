@@ -1,7 +1,7 @@
 steps:
 - name: "gcr.io/cloud-builders/docker"
 
-  # naming convention: <location>-<docker.pkg.dev/project_id/repo_name/image_name>:<tag>
+  # naming convention: <location>-<docker.pkg.dev/project_id/repo_name/image_name>:<tag> like latest or v1.0.0
   args: ["build", "-t", "europe-west4-docker.pkg.dev/${PROJECT_ID}/pyapprepo-artifact/pyappimage:latest", "."]
 
 

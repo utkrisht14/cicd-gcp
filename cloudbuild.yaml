@@ -31,5 +31,3 @@ substitutions:
   _IMAGE_PATH: $_{LOCATION}/${PROJECT_ID}/${_IMAGE}
 
 
-options:
-  dynamicSubstitutions: true
